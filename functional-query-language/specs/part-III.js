@@ -79,7 +79,7 @@ describe("Part III: (w)indexing", function () {
     });
   });
 
-  xit("where queries take advantage of indexed columns to minimize table reads", function () {
+  it("where queries take advantage of indexed columns to minimize table reads", function () {
     // non-indexed query
     chai.spy.on(movieTable, 'read');
     var nonIndexedResult = new FQL(movieTable)

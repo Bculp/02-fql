@@ -31,7 +31,20 @@ FQL.merge = function (objA, objB) {
 
 // this problems, arrow function solution
 FQL.prototype.get = function () {
-  var rowIds = this.table.getRowIds();
+  var criteria = this.plan.criteria;
+  var indices = Object.keys(this.table.indices).filter(function(key) {
+    return Boolean(criteria[key])
+  })
+
+  var rowIds = this.table.getRowIds().filter(function(row) {
+    var id = row[id];
+    //
+    for (var column in indices) {
+      if (criteria[column] ) {
+        return 
+      }
+    }
+  });
   var rows = rowIds.map((id) => {
     return this.table.read(id);
   });
