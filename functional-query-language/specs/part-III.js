@@ -44,7 +44,7 @@ describe("Part III: (w)indexing", function () {
 
   afterEach(removeNonDataTables);
 
-  xit("tables can be indexed by a column", function () {
+  it("tables can be indexed by a column", function () {
     // `hasIndexTable`
     expect(Table.prototype.hasIndexTable).to.be.a('function');
     expect(movieTable.hasIndexTable('year')).to.equal(false);

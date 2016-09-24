@@ -1,10 +1,13 @@
 'use strict';
 
 var fs = require('fs');
+var FQL = require('./fql')
 
 function Table (folderPath) {
   this.folderPath = folderPath;
+  this.indices = {}
 }
+
 
 // example
 // 0 => '0000.json'
@@ -41,5 +44,29 @@ Table.prototype.getRowIds = function () {
   var rowIds = filenames.map(Table.toId);
   return rowIds;
 };
+
+Table.prototype.hasIndexTable = function(column) {
+  if(!this.indices[column]) return false;
+  return true;
+}
+
+Table.prototype.addIndexTable = function(column) {
+  var query = new FQL(this);
+  var rows = query.select('id', column).get();
+  var index = {};
+  this.indices[column] = index;
+   while (rows.length > 0) {
+    var row = rows.shift();
+    var id = row.id;
+    var key = row[column];
+    if (!index[key]) index[key] = [];
+    index[key].push(id);
+  }
+}
+
+Table.prototype.getIndexTable = function(column) {
+  return this.indices[column];
+}
+
 
 module.exports = Table;
